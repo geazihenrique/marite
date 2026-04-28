@@ -105,7 +105,7 @@ export default function App() {
   const editEvent = (event: AppEvent) => {
     const current = formatClock(event.createdAt);
     const time = window.prompt('Editar horário no formato HH:MM', current);
-    if (!time || !/^\d{2}:\d{2}$/.test(time)) return;
+    if (!time || /^\d{2}:\d{2}$/.test(time) === false) return;
     let payload = event.payload;
 
     if (event.type === 'diaper') {
@@ -145,6 +145,7 @@ export default function App() {
       {tab === 'home' ? (
         <Home
           babyName={data.profile.name}
+          babyBirthDate={data.profile.birthDate}
           events={data.events}
           now={now}
           sleepingSince={sleepingSince}
@@ -155,6 +156,7 @@ export default function App() {
           onWake={() => addEvent(createEvent('sleep_end'))}
           onOpenDiaper={() => setDiaperOpen(true)}
           onMedicineTaken={(dose) => markDose(dose.medicine, dose.time, 'medicine_taken')}
+          onConfigureProfile={() => setTab('settings')}
         />
       ) : null}
 
@@ -187,9 +189,9 @@ export default function App() {
       {tab === 'settings' ? (
         <Settings
           data={data}
-          onSaveProfile={(name) => {
-            setData((current) => ({ ...current, profile: { name } }));
-            window.alert('Nome salvo.');
+          onSaveProfile={(profile) => {
+            setData((current) => ({ ...current, profile }));
+            window.alert('Perfil salvo.');
           }}
           onImport={setData}
           onClear={clearData}
