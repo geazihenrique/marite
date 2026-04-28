@@ -2,13 +2,14 @@ import { durationText } from '../utils/time';
 
 type SummaryCardProps = {
   feedings: number;
+  totalMl: number;
   sleepMs: number;
   diapers: number;
   medicinesTaken: number;
   medicinesSkipped: number;
 };
 
-export function SummaryCard({ feedings, sleepMs, diapers, medicinesTaken, medicinesSkipped }: SummaryCardProps) {
+export function SummaryCard({ feedings, totalMl, sleepMs, diapers, medicinesTaken, medicinesSkipped }: SummaryCardProps) {
   return (
     <section className="panel">
       <div className="sectionHeader">
@@ -18,6 +19,10 @@ export function SummaryCard({ feedings, sleepMs, diapers, medicinesTaken, medici
         <div>
           <strong>{feedings}</strong>
           <span>Mamadas</span>
+        </div>
+        <div>
+          <strong>{totalMl} ml</strong>
+          <span>Total ingerido</span>
         </div>
         <div>
           <strong>{durationText(sleepMs)}</strong>
