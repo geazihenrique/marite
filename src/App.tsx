@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { DiaperModal } from './components/DiaperModal';
+import { FeedingModal } from './components/FeedingModal';
 import { Home } from './screens/Home';
 import { Medicines } from './screens/Medicines';
 import { History } from './screens/History';
@@ -32,6 +33,7 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('home');
   const [now, setNow] = useState(new Date());
   const [diaperOpen, setDiaperOpen] = useState(false);
+  const [feedingOpen, setFeedingOpen] = useState(false);
   const [lastDueKey, setLastDueKey] = useState('');
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export default function App() {
   const editEvent = (event: AppEvent) => {
     const current = formatClock(event.createdAt);
     const time = window.prompt('Editar horário no formato HH:MM', current);
-    if (!time || /^\d{2}:\d{2}$/.test(time) === false) return;
+    if (!time || !/^\d{2}:\d{2}$/.test(time)) return;
     let payload = event.payload;
 
     if (event.type === 'diaper') {
@@ -151,7 +153,7 @@ export default function App() {
           sleepingSince={sleepingSince}
           lastWake={lastWake}
           nextMedicine={nextMedicine}
-          onFeeding={() => addEvent(createEvent('feeding'))}
+          onFeeding={() => setFeedingOpen(true)}
           onSleepStart={() => addEvent(createEvent('sleep_start'))}
           onWake={() => addEvent(createEvent('sleep_end'))}
           onOpenDiaper={() => setDiaperOpen(true)}
@@ -204,6 +206,15 @@ export default function App() {
         onSelect={(kind) => {
           addEvent(createEvent('diaper', { kind }));
           setDiaperOpen(false);
+        }}
+      />
+
+      <FeedingModal
+        open={feedingOpen}
+        onClose={() => setFeedingOpen(false)}
+        onSave={(amountMl) => {
+          addEvent(createEvent('feeding', { amountMl }));
+          setFeedingOpen(false);
         }}
       />
 
