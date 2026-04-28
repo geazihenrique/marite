@@ -1,5 +1,6 @@
 import type { AppEvent } from '../types';
 import { diaperLabel } from './DiaperModal';
+import { getFeedingAmount } from './FeedingModal';
 import { formatClock, formatDateLabel } from '../utils/time';
 
 type TimelineProps = {
@@ -12,7 +13,7 @@ type TimelineProps = {
 const getEventText = (event: AppEvent) => {
   switch (event.type) {
     case 'feeding':
-      return { title: 'Mamou', description: 'Mamadeira ou amamentação registrada' };
+      return { title: 'Mamou', description: getFeedingAmount(event.payload) ? `${getFeedingAmount(event.payload)} ml` : 'Sem quantidade' };
     case 'sleep_start':
       return { title: 'Dormiu', description: 'Início do sono' };
     case 'sleep_end':
