@@ -50,6 +50,12 @@ export const getDailySummary = (events: AppEvent[], now: Date = new Date()) => {
   const todayEvents = getTodayEvents(events);
   return {
     feedings: todayEvents.filter((event) => event.type === 'feeding').length,
+    totalMl: todayEvents
+      .filter((event) => event.type === 'feeding')
+      .reduce((total, event) => {
+        const amountMl = event.payload?.amountMl;
+        return typeof amountMl === 'number' && Number.isFinite(amountMl) && amountMl > 0 ? total + amountMl : total;
+      }, 0),
     sleepMs: calculateTodaySleepMs(events, now),
     diapers: todayEvents.filter((event) => event.type === 'diaper').length,
     medicinesTaken: todayEvents.filter((event) => event.type === 'medicine_taken').length,
