@@ -6,9 +6,11 @@ import { Timeline } from '../components/Timeline';
 import { diaperLabel } from '../components/DiaperModal';
 import { elapsedText, formatClock, remainingText } from '../utils/time';
 import { getDailySummary, getLastDiaper, getLastFeeding } from '../utils/summary';
+import { calculateBabyMilestoneMessage, calculateReadableBabyAge, calculateTotalDaysSinceBirth } from '../utils/babyAge';
 
 type HomeProps = {
   babyName: string;
+  babyBirthDate?: string;
   events: AppEvent[];
   now: Date;
   sleepingSince?: AppEvent;
@@ -19,10 +21,12 @@ type HomeProps = {
   onWake: () => void;
   onOpenDiaper: () => void;
   onMedicineTaken: (dose: NextMedicineDose) => void;
+  onConfigureProfile: () => void;
 };
 
 export function Home({
   babyName,
+  babyBirthDate,
   events,
   now,
   sleepingSince,
@@ -33,10 +37,14 @@ export function Home({
   onWake,
   onOpenDiaper,
   onMedicineTaken,
+  onConfigureProfile,
 }: HomeProps) {
   const lastFeeding = getLastFeeding(events);
   const lastDiaper = getLastDiaper(events);
   const summary = getDailySummary(events, now);
+  const totalDays = calculateTotalDaysSinceBirth(babyBirthDate, now);
+  const readableAge = calculateReadableBabyAge(babyBirthDate, now);
+  const milestoneMessage = calculateBabyMilestoneMessage(babyBirthDate, now);
   const statusTitle = sleepingSince
     ? `Dormindo há ${elapsedText(sleepingSince.createdAt, now)}`
     : lastWake
@@ -49,6 +57,26 @@ export function Home({
         <p>{babyName ? `Rotina de ${babyName}` : 'Rotina do bebê'}</p>
         <h1>Rotina do bebê</h1>
       </header>
+
+      <section className="ageCard">
+        {totalDays !== null && readableAge ? (
+          <>
+            <div>
+              <p>{babyName || 'Bebê'}</p>
+              <h2>{totalDays} {totalDays === 1 ? 'dia de vida' : 'dias de vida'}</h2>
+              <span>{readableAge}</span>
+            </div>
+            {milestoneMessage ? <strong>{milestoneMessage}</strong> : null}
+          </>
+        ) : (
+          <>
+            <span>Adicione a data de nascimento para acompanhar os dias de vida.</span>
+            <button type="button" onClick={onConfigureProfile}>
+              Configurar
+            </button>
+          </>
+        )}
+      </section>
 
       <StatusCard
         eyebrow={sleepingSince ? 'Sono agora' : 'Status agora'}
