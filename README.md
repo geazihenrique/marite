@@ -9,6 +9,8 @@ Rotina do Bebê é um PWA mobile-first para iPhone criado para ajudar a registra
 - Registrar "Mamou agora", "Dormiu agora" e "Acordou agora".
 - Registrar troca de fralda como Xixi, Cocô, Xixi + cocô ou Fralda seca.
 - Ver status atual: dormindo ou acordado, com tempo em andamento.
+- Configurar nome e data de nascimento do bebê.
+- Ver dias de vida, idade em semanas/meses/anos e marcos completos na tela inicial.
 - Ver última mamada, última fralda, resumo do dia e histórico recente.
 - Criar remédios com múltiplos horários, observação e status ativo/inativo.
 - Marcar doses como tomadas ou puladas.
