@@ -7,7 +7,17 @@ export const emptyData: AppData = {
   medicines: [],
   profile: {
     name: '',
+    birthDate: '',
   },
+};
+
+const normalizeProfile = (profile: unknown) => {
+  if (!profile || typeof profile !== 'object') return emptyData.profile;
+  const candidate = profile as Partial<AppData['profile']>;
+  return {
+    name: typeof candidate.name === 'string' ? candidate.name : '',
+    birthDate: typeof candidate.birthDate === 'string' ? candidate.birthDate : '',
+  };
 };
 
 export const loadData = (): AppData => {
@@ -18,7 +28,7 @@ export const loadData = (): AppData => {
     return {
       events: Array.isArray(data.events) ? data.events : [],
       medicines: Array.isArray(data.medicines) ? data.medicines : [],
-      profile: data.profile && typeof data.profile.name === 'string' ? data.profile : emptyData.profile,
+      profile: normalizeProfile(data.profile),
     };
   } catch {
     return emptyData;
@@ -50,7 +60,7 @@ export const importDataFromFile = (file: File): Promise<AppData> =>
         resolve({
           events: Array.isArray(parsed.events) ? parsed.events : [],
           medicines: Array.isArray(parsed.medicines) ? parsed.medicines : [],
-          profile: parsed.profile && typeof parsed.profile.name === 'string' ? parsed.profile : emptyData.profile,
+          profile: normalizeProfile(parsed.profile),
         });
       } catch (error) {
         reject(error);
