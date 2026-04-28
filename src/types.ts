@@ -26,6 +26,7 @@ export type Medicine = {
 
 export type BabyProfile = {
   name: string;
+  birthDate?: string;
 };
 
 export type AppData = {
