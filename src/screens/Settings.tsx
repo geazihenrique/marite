@@ -1,16 +1,18 @@
 import { useRef, useState } from 'react';
-import type { AppData } from '../types';
+import type { AppData, BabyProfile } from '../types';
 import { exportData, importDataFromFile } from '../utils/storage';
 
 type SettingsProps = {
   data: AppData;
-  onSaveProfile: (name: string) => void;
+  onSaveProfile: (profile: BabyProfile) => void;
   onImport: (data: AppData) => void;
   onClear: () => void;
 };
 
 export function Settings({ data, onSaveProfile, onImport, onClear }: SettingsProps) {
   const [name, setName] = useState(data.profile.name);
+  const [birthDate, setBirthDate] = useState(data.profile.birthDate ?? '');
+  const [birthDateError, setBirthDateError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImport = async (file?: File) => {
@@ -24,6 +26,25 @@ export function Settings({ data, onSaveProfile, onImport, onClear }: SettingsPro
     } finally {
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
+  };
+
+  const saveProfile = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (birthDate) {
+      const selectedDate = new Date(`${birthDate}T00:00:00`);
+      if (selectedDate.getTime() > today.getTime()) {
+        setBirthDateError('A data de nascimento não pode ser no futuro.');
+        return;
+      }
+    }
+
+    setBirthDateError('');
+    onSaveProfile({
+      name: name.trim(),
+      birthDate,
+    });
   };
 
   return (
@@ -40,7 +61,20 @@ export function Settings({ data, onSaveProfile, onImport, onClear }: SettingsPro
           Nome do bebê
           <input value={name} placeholder="Nome do bebê" onChange={(event) => setName(event.target.value)} />
         </label>
-        <button className="primaryButton" type="button" onClick={() => onSaveProfile(name.trim())}>
+        <label>
+          Data de nascimento
+          <input
+            value={birthDate}
+            type="date"
+            max={new Date().toISOString().slice(0, 10)}
+            onChange={(event) => {
+              setBirthDate(event.target.value);
+              setBirthDateError('');
+            }}
+          />
+        </label>
+        {birthDateError ? <p className="fieldError">{birthDateError}</p> : null}
+        <button className="primaryButton" type="button" onClick={saveProfile}>
           Salvar
         </button>
       </section>
