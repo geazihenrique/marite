@@ -4,6 +4,7 @@ import { StatusCard } from '../components/StatusCard';
 import { SummaryCard } from '../components/SummaryCard';
 import { Timeline } from '../components/Timeline';
 import { diaperLabel } from '../components/DiaperModal';
+import { getFeedingAmount } from '../components/FeedingModal';
 import { elapsedText, formatClock, remainingText } from '../utils/time';
 import { getDailySummary, getLastDiaper, getLastFeeding } from '../utils/summary';
 import { calculateBabyMilestoneMessage, calculateReadableBabyAge, calculateTotalDaysSinceBirth } from '../utils/babyAge';
@@ -40,6 +41,7 @@ export function Home({
   onConfigureProfile,
 }: HomeProps) {
   const lastFeeding = getLastFeeding(events);
+  const lastFeedingAmount = getFeedingAmount(lastFeeding?.payload);
   const lastDiaper = getLastDiaper(events);
   const summary = getDailySummary(events, now);
   const totalDays = calculateTotalDaysSinceBirth(babyBirthDate, now);
@@ -81,8 +83,25 @@ export function Home({
       <StatusCard
         eyebrow={sleepingSince ? 'Sono agora' : 'Status agora'}
         title={statusTitle}
-        subtitle={lastFeeding ? `Mamou há ${elapsedText(lastFeeding.createdAt, now)}` : 'Nenhuma mamada registrada hoje'}
+        subtitle={sleepingSince ? 'Timer de sono ativo' : 'Rotina acordada'}
       />
+
+      <section className="feedingCard">
+        <p>Última mamada</p>
+        {lastFeeding ? (
+          <>
+            <h2>Mamou há {elapsedText(lastFeeding.createdAt, now)}</h2>
+            <span>
+              {lastFeedingAmount ? `${lastFeedingAmount} ml às ${formatClock(lastFeeding.createdAt)}` : 'Sem quantidade registrada'}
+            </span>
+          </>
+        ) : (
+          <>
+            <h2>Nenhuma mamada registrada</h2>
+            <span>Sem quantidade registrada</span>
+          </>
+        )}
+      </section>
 
       <section className={`medicineCard ${nextMedicine?.status === 'due' ? 'medicineCard--due' : ''}`}>
         <div>
