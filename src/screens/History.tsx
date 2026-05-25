@@ -1,22 +1,30 @@
-import type { AppEvent } from '../types';
+import type { AppEvent, Baby, RoutineHistoryEvent } from '../types';
 import { Timeline } from '../components/Timeline';
 
 type HistoryProps = {
+  baby: Baby;
   events: AppEvent[];
+  routineHistory: RoutineHistoryEvent[];
   onDelete: (eventId: string) => void;
-  onEdit: (event: AppEvent) => void;
+  onEdit?: (event: AppEvent) => void;
 };
 
-export function History({ events, onDelete, onEdit }: HistoryProps) {
+export function History({ baby, events, routineHistory, onDelete, onEdit }: HistoryProps) {
   return (
     <main className="screen">
       <header className="screenHeader">
         <div>
-          <p>Todos os registros</p>
-          <h1>Histórico</h1>
+          <p>Histórico</p>
+          <h1>{baby.name}</h1>
         </div>
       </header>
-      <Timeline events={events} onDelete={onDelete} onEdit={onEdit} />
+
+      <section className="panel">
+        <div className="sectionHeader">
+          <h2>Registros do bebê</h2>
+        </div>
+        <Timeline events={events} routineEvents={routineHistory} onDelete={onDelete} onEdit={onEdit} />
+      </section>
     </main>
   );
 }
