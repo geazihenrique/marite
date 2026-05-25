@@ -1,22 +1,23 @@
 # Rotina do Bebê
 
-Rotina do Bebê é um PWA mobile-first para iPhone criado para ajudar a registrar mamadas, sono, trocas de fralda e lembretes de remédios definidos pela mãe. Todos os dados ficam salvos localmente no aparelho, sem login, backend ou banco de dados externo.
+Rotina do Bebê é um PWA mobile-first para iPhone criado para registrar a rotina diária de até 3 bebês: mamadas, tempo de peito por lado, sono, fraldas, fórmula e itens de rotina da família. Todos os dados ficam salvos localmente no aparelho, sem login, backend ou banco de dados externo.
 
 > Este app apenas ajuda a organizar horários. Siga sempre a orientação médica.
 
 ## Funcionalidades
 
-- Registrar "Mamou agora", "Dormiu agora" e "Acordou agora".
-- Registrar troca de fralda como Xixi, Cocô, Xixi + cocô ou Fralda seca.
-- Ver status atual: dormindo ou acordado, com tempo em andamento.
-- Configurar nome e data de nascimento do bebê.
-- Ver dias de vida, idade em semanas/meses/anos e marcos completos na tela inicial.
-- Ver última mamada, última fralda, resumo do dia e histórico recente.
-- Criar remédios com múltiplos horários, observação e status ativo/inativo.
-- Marcar doses como tomadas ou puladas.
-- Ver o próximo lembrete de remédio do dia.
-- Receber aviso visual dentro do app quando um lembrete chega.
-- Exportar, importar e limpar os dados locais.
+- Cadastro de 1 a 3 bebês, com nome e data de nascimento.
+- Alternância rápida entre bebês na área inferior do app.
+- Contador de idade com dias de vida, semanas, meses, anos e mensagens de marco.
+- Registro de mamada com horário, quantidade em ml opcional e cronômetro por lado esquerdo/direito.
+- Preservação da mamada em andamento ao atualizar ou reabrir a PWA.
+- Registro de sono, acordar e trocas de fralda.
+- Resumo diário por bebê com mamadas, total ingerido, sono total e fraldas.
+- Módulo Rotina com Remédio, Tarefa e Compromisso.
+- Repetições: não repetir, todos os dias, dias específicos da semana, semanal e mensal.
+- Histórico de rotina global separado dos registros do bebê.
+- Controle de latas de fórmula por bebê, com latas ativas, finalizadas e média de duração.
+- Exportação, importação e limpeza confirmada dos dados locais.
 
 ## Como rodar localmente
 
@@ -68,6 +69,12 @@ Depois rode:
 npm run build
 ```
 
+## Dados locais
+
+A versão atual usa a chave `rotina-do-bebe:v2` no `localStorage`, com schema versionado. O carregamento é defensivo: se algum trecho estiver ausente ou malformado, o app tenta recuperar uma estrutura segura sem apagar dados válidos durante atualizações normais.
+
+Use "Exportar dados" antes de trocar de aparelho, limpar o navegador ou reinstalar a PWA.
+
 ## Publicação
 
 Você pode publicar o conteúdo gerado em `dist` em serviços como Vercel, Netlify, GitHub Pages ou qualquer hospedagem estática com HTTPS.
@@ -81,12 +88,12 @@ gh repo create marite --private --source=. --remote=origin --push
 
 ## Limitações dos lembretes e notificações
 
-O app usa lembretes dentro da própria PWA. Quando o horário chega, ele mostra um aviso visual, tenta tocar um som simples quando o navegador permite e envia notificação se a permissão estiver concedida.
+O app usa lembretes dentro da própria PWA. Quando um item de rotina chega ao horário, ele pode mostrar um estado visual no app e enviar notificação se a permissão do navegador estiver concedida.
 
 No iPhone, notificações de PWA dependem da versão do iOS, das permissões do Safari e do app estar instalado na Tela de Início. Este MVP não promete comportamento igual ao app Relógio do iPhone e não envia notificações com o app totalmente fechado usando backend ou Web Push.
 
 ## Aviso médico
 
-Este app não sugere remédios, doses, intervalos, tratamentos ou qualquer orientação médica. Ele apenas organiza nomes e horários inseridos pela mãe.
+Este app não sugere remédios, doses, intervalos, tratamentos ou qualquer orientação médica. Ele apenas organiza nomes e horários inseridos pela família.
 
 Este app apenas ajuda a organizar horários. Siga sempre a orientação médica.
