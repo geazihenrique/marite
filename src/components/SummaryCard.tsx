@@ -5,11 +5,9 @@ type SummaryCardProps = {
   totalMl: number;
   sleepMs: number;
   diapers: number;
-  medicinesTaken: number;
-  medicinesSkipped: number;
 };
 
-export function SummaryCard({ feedings, totalMl, sleepMs, diapers, medicinesTaken, medicinesSkipped }: SummaryCardProps) {
+export function SummaryCard({ feedings, totalMl, sleepMs, diapers }: SummaryCardProps) {
   return (
     <section className="panel">
       <div className="sectionHeader">
@@ -31,10 +29,6 @@ export function SummaryCard({ feedings, totalMl, sleepMs, diapers, medicinesTake
         <div>
           <strong>{diapers}</strong>
           <span>Fraldas</span>
-        </div>
-        <div>
-          <strong>{medicinesTaken}/{medicinesTaken + medicinesSkipped}</strong>
-          <span>Remédios</span>
         </div>
       </div>
     </section>
