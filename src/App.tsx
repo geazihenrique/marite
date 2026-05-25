@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import './styles.css';
+import './feature.css';
 import './components/FeedingModal.css';
 import { DiaperModal } from './components/DiaperModal';
 import { FeedingModal } from './components/FeedingModal';
