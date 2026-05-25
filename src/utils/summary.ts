@@ -1,4 +1,4 @@
-import type { AppEvent } from '../types';
+import type { AppEvent, FeedingPayload } from '../types';
 import { isToday } from './time';
 
 export const getTodayEvents = (events: AppEvent[]) => events.filter((event) => isToday(event.createdAt));
@@ -21,6 +21,24 @@ export const getCurrentSleepStart = (events: AppEvent[]) => {
 };
 
 export const getLastWake = (events: AppEvent[]) => getLastEvent(events, 'sleep_end');
+
+export const getFeedingPayload = (payload?: Record<string, unknown>): FeedingPayload => {
+  const amount = payload?.amountMl;
+  const breast = payload?.breast;
+  const breastRecord = breast && typeof breast === 'object' ? breast as Record<string, unknown> : {};
+  const leftSeconds = typeof breastRecord.leftSeconds === 'number' && breastRecord.leftSeconds > 0 ? Math.floor(breastRecord.leftSeconds) : 0;
+  const rightSeconds = typeof breastRecord.rightSeconds === 'number' && breastRecord.rightSeconds > 0 ? Math.floor(breastRecord.rightSeconds) : 0;
+  const lastSide = breastRecord.lastSide === 'left' || breastRecord.lastSide === 'right' ? breastRecord.lastSide : null;
+  return {
+    amountMl: typeof amount === 'number' && Number.isFinite(amount) && amount > 0 ? amount : null,
+    breast: {
+      leftSeconds,
+      rightSeconds,
+      totalSeconds: leftSeconds + rightSeconds,
+      lastSide,
+    },
+  };
+};
 
 export const calculateTodaySleepMs = (events: AppEvent[], now: Date = new Date()) => {
   const todayEvents = getTodayEvents(events).sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
@@ -52,13 +70,8 @@ export const getDailySummary = (events: AppEvent[], now: Date = new Date()) => {
     feedings: todayEvents.filter((event) => event.type === 'feeding').length,
     totalMl: todayEvents
       .filter((event) => event.type === 'feeding')
-      .reduce((total, event) => {
-        const amountMl = event.payload?.amountMl;
-        return typeof amountMl === 'number' && Number.isFinite(amountMl) && amountMl > 0 ? total + amountMl : total;
-      }, 0),
+      .reduce((total, event) => total + (getFeedingPayload(event.payload).amountMl ?? 0), 0),
     sleepMs: calculateTodaySleepMs(events, now),
     diapers: todayEvents.filter((event) => event.type === 'diaper').length,
-    medicinesTaken: todayEvents.filter((event) => event.type === 'medicine_taken').length,
-    medicinesSkipped: todayEvents.filter((event) => event.type === 'medicine_skipped').length,
   };
 };
