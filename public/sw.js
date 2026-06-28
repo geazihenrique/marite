@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rotina-bebe-v3';
+const CACHE_NAME = 'jornada-mavie-v4';
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/apple-touch-icon.png'];
 
 self.addEventListener('install', (event) => {
