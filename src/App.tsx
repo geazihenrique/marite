@@ -273,7 +273,7 @@ export default function App() {
         <main className="screen setupScreen">
           <header className="hero">
             <p>Primeiro acesso</p>
-            <h1>Rotina do bebê</h1>
+            <h1>Jornada Mavie</h1>
           </header>
           <section className="panel formPanel">
             <label>
