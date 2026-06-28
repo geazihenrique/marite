@@ -1,7 +1,7 @@
 {
-  "name": "Rotina do Bebê",
-  "short_name": "Rotina Bebê",
-  "description": "Acompanhe mamadas, sono, fraldas, rotina familiar e fórmula do bebê.",
+  "name": "Jornada Mavie",
+  "short_name": "Mavie",
+  "description": "Acompanhe mamadas, sono, fraldas, rotina familiar e fórmula da Mavie.",
   "lang": "pt-BR",
   "start_url": "/",
   "scope": "/",
