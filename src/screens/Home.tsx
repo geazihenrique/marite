@@ -74,7 +74,7 @@ export function Home({
   return (
     <main className="screen">
       <header className="hero">
-        <p>Rotina do bebê</p>
+        <p>Jornada Mavie</p>
         <h1>Hoje</h1>
       </header>
 
