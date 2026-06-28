@@ -122,7 +122,7 @@ export const exportData = (data: AppData) => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `rotina-do-bebe-v2-${new Date().toISOString().slice(0, 10)}.json`;
+  link.download = `jornada-mavie-dados-${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(link);
   link.click();
   link.remove();
