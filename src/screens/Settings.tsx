@@ -61,7 +61,7 @@ export function Settings({ data, activeBaby, onSaveBaby, onAddBaby, onDeleteBaby
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `rotina-do-bebe-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `jornada-mavie-dados-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -142,7 +142,7 @@ export function Settings({ data, activeBaby, onSaveBaby, onAddBaby, onDeleteBaby
         <div className="sectionHeader">
           <h2>Sobre o aplicativo</h2>
         </div>
-        <p>Rotina do Bebê organiza mamadas, sono, fraldas, rotina familiar e fórmula neste aparelho.</p>
+        <p>Jornada Mavie organiza mamadas, sono, fraldas, rotina familiar e fórmula neste aparelho.</p>
         <p>Os dados ficam salvos localmente no navegador usado no iPhone.</p>
         <p className="medicalText">Este app apenas ajuda a organizar horários. Siga sempre a orientação médica.</p>
       </section>
