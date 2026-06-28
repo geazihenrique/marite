@@ -1,6 +1,6 @@
-# Rotina do Bebê
+# Jornada Mavie
 
-Rotina do Bebê é um PWA mobile-first para iPhone criado para registrar a rotina diária de até 3 bebês: mamadas, tempo de peito por lado, sono, fraldas, fórmula e itens de rotina da família. Todos os dados ficam salvos localmente no aparelho, sem login, backend ou banco de dados externo.
+Jornada Mavie é um PWA mobile-first para iPhone criado para registrar a rotina diária de até 3 bebês: mamadas, tempo de peito por lado, sono, fraldas, fórmula e itens de rotina da família. Todos os dados ficam salvos localmente no aparelho, sem login, backend ou banco de dados externo.
 
 > Este app apenas ajuda a organizar horários. Siga sempre a orientação médica.
 
@@ -48,7 +48,7 @@ npm run preview
 2. Abra a URL no Safari do iPhone.
 3. Toque no botão de compartilhar.
 4. Toque em "Adicionar à Tela de Início".
-5. Confirme o nome "Rotina do Bebê".
+5. Confirme o nome "Jornada Mavie".
 
 O app abrirá em tela cheia e terá suporte básico offline depois do primeiro carregamento.
 
@@ -71,7 +71,7 @@ npm run build
 
 ## Dados locais
 
-A versão atual usa a chave `rotina-do-bebe:v2` no `localStorage`, com schema versionado. O carregamento é defensivo: se algum trecho estiver ausente ou malformado, o app tenta recuperar uma estrutura segura sem apagar dados válidos durante atualizações normais.
+A versão atual usa uma chave versionada no `localStorage`. O carregamento é defensivo: se algum trecho estiver ausente ou malformado, o app tenta recuperar uma estrutura segura sem apagar dados válidos durante atualizações normais.
 
 Use "Exportar dados" antes de trocar de aparelho, limpar o navegador ou reinstalar a PWA.
 
